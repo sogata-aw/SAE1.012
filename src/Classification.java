@@ -67,18 +67,25 @@ public class Classification {
         // Chargement des dépêches en mémoire
         System.out.println("chargement des dépêches");
         ArrayList<Depeche> depeches = lectureDepeches("./depeches.txt");
-        Categorie ENVIRONNEMENT_SCIENCES = new Categorie("ENVIRONNEMENT-SCIENCES");
-        Categorie CULTURE = new Categorie("CULTURE");
-        Categorie ECONOMIE = new Categorie("ECONOMIE");
-        Categorie POLITIQUE = new Categorie("POLITIQUE");
-        Categorie SPORTS = new Categorie("SPORTS");
+        Categorie environnement_sciences = new Categorie("ENVIRONNEMENT-SCIENCES");
+        Categorie culture = new Categorie("CULTURE");
+        Categorie economie = new Categorie("ECONOMIE");
+        Categorie politique = new Categorie("POLITIQUE");
+        Categorie sports = new Categorie("SPORTS");
         ArrayList<Categorie> categories = new ArrayList<>(
-                Arrays.asList(ENVIRONNEMENT_SCIENCES, CULTURE, ECONOMIE, POLITIQUE, SPORTS));
+                Arrays.asList(environnement_sciences, culture, economie, politique, sports));
 
         for (int i = 0; i < depeches.size(); i++) {
             depeches.get(i).afficher();
         }
 
+        // test de initLexique
+        culture.initLexique("CULTURE.TXT");
+        ArrayList<PaireChaineEntier> lexiqueCulture = culture.getLexique();
+        System.out.println("Contenu du lexique \"culture\" :\n");
+        for (int i = 0; i < lexiqueCulture.size(); i++) {
+            System.out.println(lexiqueCulture.get(i));
+        }
     }
 
 }

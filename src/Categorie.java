@@ -25,28 +25,23 @@ public class Categorie {
     // texte
     public void initLexique(String nomFichier) {
         try {
-            FileInputStream file = new FileInputStream(nomFichier);
-            Scanner scanner = new Scanner(file);
+            lexique = new ArrayList<>();
+            Scanner scanner = new Scanner(new FileInputStream(nomFichier));
+            String currentLine, currentWord;
+            int i, currentWeight;
 
             while (scanner.hasNextLine()) {
-                String ligne = scanner.nextLine();
-                String chaine = ligne.substring(3);
-                ligne = scanner.nextLine();
-                String entier = ligne.substring(3);
-                ligne = scanner.nextLine();
-                String lignes = ligne.substring(3);
-                while (scanner.hasNextLine() && !ligne.equals((""))) {
-                    if (!ligne.equals("")) {
-                        lignes = lignes + '\n' + ligne;
-                    }
+                currentLine = scanner.nextLine();
+                i = 0;
+                while (currentLine.charAt(i) != ':') {
+                    i++;
                 }
-                int entierFin = Integer.parseInt(entier);
-                PaireChaineEntier unePaire = new PaireChaineEntier(chaine, entierFin);
-                this.lexique.add(unePaire);
+                currentWord = currentLine.substring(0, i);
+                currentWeight = Integer.parseInt(currentLine.substring(i + 1));
+                lexique.add(new PaireChaineEntier(currentWord, currentWeight));
             }
         } catch (IOException e) {
             e.printStackTrace();
-            ;
         }
     }
 
