@@ -1,3 +1,5 @@
+environnement:3
+science:3
 cellule:2
 tumeur:3
 cancer:2
@@ -18,8 +20,8 @@ transplantation:3
 organe:3
 écologi:3
 sécheresse:3
-Terre:2
-Mars:2
+terre:1
+mars:1
 planète:3
 climat:3
 spati:3
@@ -29,7 +31,7 @@ vaccin:3
 réchauffe:1
 génome:3
 vore:2
-chimique:3
+chimi:3
 santé:3
 CO2:3
 ISS:3
@@ -45,3 +47,10 @@ matière:2
 nucléaire:3
 séisme:2
 tsunami:2
+astro:3
+atom:3
+échantillon:2
+gravit:3
+faune:3
+flore:3
+carbone:2
