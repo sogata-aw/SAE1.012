@@ -32,9 +32,19 @@ public class Categorie {
 
             while(scanner.hasNextLine()){
                 String ligne= scanner.nextLine();
-                String id = ligne.substring(3);
+                String chaine = ligne.substring(3);
                 ligne=scanner.nextLine();
-                String date = ligne.substring(3);
+                String entier = ligne.substring(3);
+                ligne= scanner.nextLine();
+                String lignes = ligne.substring(3);
+                while(scanner.hasNextLine() && !ligne.equals((""))){
+                    if(!ligne.equals("")){
+                        lignes=lignes + '\n' +ligne;
+                    }
+                }
+                int entierFin = Integer.parseInt(entier);
+                PaireChaineEntier unePaire = new PaireChaineEntier(chaine,entierFin);
+                this.lexique.add(unePaire);
             }
         }catch (IOException e){
             e.printStackTrace();;

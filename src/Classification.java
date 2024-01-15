@@ -2,6 +2,7 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Classification {
@@ -67,6 +68,12 @@ public class Classification {
         //Chargement des dépêches en mémoire
         System.out.println("chargement des dépêches");
         ArrayList<Depeche> depeches = lectureDepeches("./depeches.txt");
+        Categorie ENVIRONNEMENT_SCIENCES = new Categorie("ENVIRONNEMENT-SCIENCES");
+        Categorie CULTURE = new Categorie("CULTURE");
+        Categorie ECONOMIE = new Categorie("ECONOMIE");
+        Categorie POLITIQUE = new Categorie("POLITIQUE");
+        Categorie SPORTS = new Categorie("SPORTS");
+        ArrayList<Categorie> categories = new ArrayList<>(Arrays.asList(ENVIRONNEMENT_SCIENCES,CULTURE,ECONOMIE,POLITIQUE,SPORTS));
 
         for (int i = 0; i < depeches.size(); i++) {
             depeches.get(i).afficher();
