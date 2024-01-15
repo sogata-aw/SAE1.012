@@ -31,7 +31,7 @@ tactique tiré d'un bâtiment de la marine américaine.
 .N 005
 .D 140208
 .C ENVIRONNEMENT-SCIENCES
-.T Plus d'éoliennes, pas moins de CO2.Pour encourager l'éolien, l'Etat 
+.T Plus d'éoliennes, pas moins de CO2. Pour encourager l'éolien, l'Etat 
 subventionne à tout va. Mais une étude récente montre que dans les 
 pays qui ont le plus misé sur le vent, les émissions de gaz à effet de 
 serre n'ont pas baissé. 

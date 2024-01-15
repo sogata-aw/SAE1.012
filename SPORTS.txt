@@ -1,0 +1,5 @@
+sport:3
+coupe:3
+match:3
+jeu:2
+domicile:1
