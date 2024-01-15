@@ -1768,7 +1768,7 @@ confiance.
 .C ECONOMIE
 .T Cette terre est à nous, foi de paysans
 Des villageois spoliés du Jiangsu ont brisé un tabou de la Chine
-communiste : ils se sont déclarés propriétaires des etrres
+communiste : ils se sont déclarés propriétaires des terres
 où ils vivent. En théorie, une loi du 1er octobre 2007 leur donne
 raison. 
 
@@ -1812,7 +1812,7 @@ que fait Microsoft.
 .N 232
 .D 240208
 .C ECONOMIE
-.T Le Liechtenstein, Andorre  et Monaco sur "la liste noire".
+.T Le Liechtenstein, Andorre et Monaco sur "la liste noire".
 
 .N 233
 .D 240208
