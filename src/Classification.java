@@ -7,9 +7,8 @@ import java.util.Scanner;
 
 public class Classification {
 
-
     private static ArrayList<Depeche> lectureDepeches(String nomFichier) {
-        //creation d'un tableau de dépêches
+        // creation d'un tableau de dépêches
         ArrayList<Depeche> depeches = new ArrayList<>();
         try {
             // lecture du fichier d'entrée
@@ -41,10 +40,9 @@ public class Classification {
         return depeches;
     }
 
-
-    public static void classementDepeches(ArrayList<Depeche> depeches, ArrayList<Categorie> categories, String nomFichier) {
+    public static void classementDepeches(ArrayList<Depeche> depeches, ArrayList<Categorie> categories,
+            String nomFichier) {
     }
-
 
     public static ArrayList<PaireChaineEntier> initDico(ArrayList<Depeche> depeches, String categorie) {
         ArrayList<PaireChaineEntier> resultat = new ArrayList<>();
@@ -52,7 +50,8 @@ public class Classification {
 
     }
 
-    public static void calculScores(ArrayList<Depeche> depeches, String categorie, ArrayList<PaireChaineEntier> dictionnaire) {
+    public static void calculScores(ArrayList<Depeche> depeches, String categorie,
+            ArrayList<PaireChaineEntier> dictionnaire) {
     }
 
     public static int poidsPourScore(int score) {
@@ -65,7 +64,7 @@ public class Classification {
 
     public static void main(String[] args) {
 
-        //Chargement des dépêches en mémoire
+        // Chargement des dépêches en mémoire
         System.out.println("chargement des dépêches");
         ArrayList<Depeche> depeches = lectureDepeches("./depeches.txt");
         Categorie ENVIRONNEMENT_SCIENCES = new Categorie("ENVIRONNEMENT-SCIENCES");
@@ -73,7 +72,8 @@ public class Classification {
         Categorie ECONOMIE = new Categorie("ECONOMIE");
         Categorie POLITIQUE = new Categorie("POLITIQUE");
         Categorie SPORTS = new Categorie("SPORTS");
-        ArrayList<Categorie> categories = new ArrayList<>(Arrays.asList(ENVIRONNEMENT_SCIENCES,CULTURE,ECONOMIE,POLITIQUE,SPORTS));
+        ArrayList<Categorie> categories = new ArrayList<>(
+                Arrays.asList(ENVIRONNEMENT_SCIENCES, CULTURE, ECONOMIE, POLITIQUE, SPORTS));
 
         for (int i = 0; i < depeches.size(); i++) {
             depeches.get(i).afficher();
@@ -81,6 +81,4 @@ public class Classification {
 
     }
 
-
 }
-

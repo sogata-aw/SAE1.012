@@ -8,6 +8,6 @@ public class ExempleTempsExecution {
         long startTime = System.currentTimeMillis();
         lecteur.nextLine();
         long endTime = System.currentTimeMillis();
-        System.out.println("votre saisie a été réalisée en : " + (endTime-startTime) + "ms");
+        System.out.println("votre saisie a été réalisée en : " + (endTime - startTime) + "ms");
     }
 }
