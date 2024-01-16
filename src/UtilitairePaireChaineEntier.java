@@ -29,18 +29,16 @@ public class UtilitairePaireChaineEntier {
 
     public static String chaineMax(ArrayList<PaireChaineEntier> listePaires) {
         int max = listePaires.get(0).getEntier();
-        String resultat;
         int j = 0;
-        for (int i = 0; i < listePaires.size(); i++) {
-            if (max < listePaires.get(i).getEntier()) {
-                max = listePaires.get(i).getEntier();
+        int currentEntier;
+        for (int i = 1; i < listePaires.size(); i++) {
+            currentEntier = listePaires.get(i).getEntier();
+            if (max < currentEntier) {
+                max = currentEntier;
+                j = i;
             }
         }
-        while (j < listePaires.size() && listePaires.get(j).getEntier() != max) {
-            j++;
-        }
-        resultat = listePaires.get(j).getChaine();
-        return resultat;
+        return listePaires.get(j).getChaine();
     }
 
     public static float moyenne(ArrayList<PaireChaineEntier> listePaires) {
@@ -48,7 +46,6 @@ public class UtilitairePaireChaineEntier {
         for (int i = 0; i < listePaires.size(); i++) {
             s += listePaires.get(i).getEntier();
         }
-        s = s / listePaires.size();
-        return s;
+        return s / listePaires.size();
     }
 }
