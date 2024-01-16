@@ -3,11 +3,11 @@ import java.util.ArrayList;
 public class UtilitairePaireChaineEntier {
 
     public static int indicePourChaine(ArrayList<PaireChaineEntier> listePaires, String chaine) {
-        int i=0;
-        int resultat=-1;
-        while(i< listePaires.size() && resultat!=-1){
-            if(listePaires.get(i).getChaine().equals(chaine)){
-                resultat = listePaires.get(i).getEntier();
+        int i = 0;
+        int resultat = -1;
+        while (i < listePaires.size() && resultat != -1) {
+            if (chaine.contains(listePaires.get(i).getChaine())) {
+                resultat = i;
             }
             i++;
         }
@@ -19,7 +19,7 @@ public class UtilitairePaireChaineEntier {
         int resultat = 0;
         int i = 0;
         while (i < listePaires.size() && resultat == 0) {
-            if (listePaires.get(i).getChaine().equals(chaine)) {
+            if (chaine.contains(listePaires.get(i).getChaine())) {
                 resultat = listePaires.get(i).getEntier();
             }
             i++;
@@ -44,11 +44,11 @@ public class UtilitairePaireChaineEntier {
     }
 
     public static float moyenne(ArrayList<PaireChaineEntier> listePaires) {
-        float s=0.0f;
-        for(int i=0;i<listePaires.size();i++){
-            s+=listePaires.get(i).getEntier();
+        float s = 0.0f;
+        for (int i = 0; i < listePaires.size(); i++) {
+            s += listePaires.get(i).getEntier();
         }
-        s= s/ listePaires.size();
+        s = s / listePaires.size();
         return s;
     }
 }
