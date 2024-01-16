@@ -44,7 +44,7 @@ public class UtilitairePaireChaineEntier {
     }
 
     public static float moyenne(ArrayList<PaireChaineEntier> listePaires) {
-        float s=0.0f;
+        float s=0.0;
         for(int i=0;i<listePaires.size();i++){
             s+=listePaires.get(i).getEntier();
         }
