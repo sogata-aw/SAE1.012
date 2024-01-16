@@ -38,37 +38,41 @@ public class Classification {
         return depeches;
     }
 
-    public static void classementDepeches(ArrayList<Depeche> depeches, ArrayList<Categorie> categories,
-            String nomFichier) throws IOException {
-        //calcul de tout les scores et placé dans scoreDepeches pour chaque catégorie
-        ArrayList<PaireChaineEntier> scoreDepeches = new ArrayList<>();
-        for(int i=0; i<depeches.size();i++){
-            for(int j=0; j<categories.size();i++){
-                PaireChaineEntier tmp = new PaireChaineEntier(categories.get(j).getNom(), categories.get(j).score(depeches.get(i)));
-                scoreDepeches.add(tmp);
-            }
-
-            FileWriter file = new FileWriter(nomFichier);
-            file.write(depeches.get(i).getId() +" \n");
-            file.write("score :\n");
-            int max = scoreDepeches.get(0).getEntier();
-            int indMax = 0;
-            for(int j=0;j<categories.size();j++){
-                if(max<scoreDepeches.get(j).getEntier()){
-                    max = scoreDepeches.get(j).getEntier();
-                    indMax=j;
-                }
-            }
-
-            file.write(scoreDepeches.get(indMax).getChaine() + " :" +Integer.toString(scoreDepeches.get(indMax).getEntier()));
-            for(int j=0; j< scoreDepeches.size();j++){
-                if(j!=indMax){
-                    file.write(scoreDepeches.get(j).getChaine() + " :" +Integer.toString(scoreDepeches.get(j).getEntier()));
-                }
-            }
-            scoreDepeches = new ArrayList<>();
+    public static void classementDepeches(ArrayList<Depeche> depeches, ArrayList<Categorie> categories, String nomFichier) {
+        String guessedCategorie, trueCategorie;
+        PaireChaineEntier currentPaire;
+        ArrayList<PaireChaineEntier> scoreDepeches;
+        ArrayList<PaireChaineEntier> bonnesReponses = new ArrayList<>(categories.size());
+        for (int j = 0; j < categories.size(); j++) {
+            bonnesReponses.add(new PaireChaineEntier(categories.get(j).getNom(), 0));
         }
+        try {
+            FileWriter file = new FileWriter(nomFichier);
+            for (int i = 0; i < depeches.size(); i++) {
+                scoreDepeches = new ArrayList<>();
+                for (int j = 0; j < categories.size(); j++) {
+                    scoreDepeches.add(new PaireChaineEntier(categories.get(j).getNom(),
+                            categories.get(j).score(depeches.get(i))));
+                }
+                guessedCategorie = UtilitairePaireChaineEntier.chaineMax(scoreDepeches);
+                file.write(depeches.get(i).getId() + ':' + guessedCategorie + '\n');
 
+                trueCategorie = depeches.get(i).getCategorie();
+                if (guessedCategorie.equals(trueCategorie)) {
+                    currentPaire = bonnesReponses.get(UtilitairePaireChaineEntier.indicePourChaine(bonnesReponses, trueCategorie));
+                    currentPaire.setEntier(currentPaire.getEntier() + 1);
+                }
+
+            }
+            
+            for (int i = 0; i < bonnesReponses.size(); i++) {
+                file.write(bonnesReponses.get(i).getChaine() + " : " + bonnesReponses.get(i).getEntier() + "%\n");
+            }
+            file.write("MOYENNE : " + UtilitairePaireChaineEntier.moyenne(bonnesReponses) + '%');
+            file.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static ArrayList<PaireChaineEntier> initDico(ArrayList<Depeche> depeches, String categorie) {
@@ -118,13 +122,14 @@ public class Classification {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         // Chargement des dépêches en mémoire
         System.out.println("chargement des dépêches");
         ArrayList<Depeche> depeches = lectureDepeches("./depeches.txt");
 
         Categorie environnement_sciences = new Categorie("ENVIRONNEMENT-SCIENCES");
+        environnement_sciences.initLexique();
         Categorie culture = new Categorie("CULTURE");
         culture.initLexique();
         Categorie economie = new Categorie("ECONOMIE");
@@ -135,14 +140,8 @@ public class Classification {
         sports.initLexique();
         ArrayList<Categorie> categories = new ArrayList<>(
                 Arrays.asList(environnement_sciences, culture, economie, politique, sports));
-        
-        // Affichage des dépêches
-        afficherListeDepeches(depeches);
 
-        // Test de initLexique
-        afficherLexique(culture);
-        
-        // Test de entierPourChaine
-        testEntierPourChaine(economie);
+        classementDepeches(depeches, categories, "classement.txt");
+
     }
 }

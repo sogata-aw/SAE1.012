@@ -16,6 +16,10 @@ public class PaireChaineEntier {
         return entier;
     }
 
+    public void setEntier(int valeur) {
+        entier = valeur;
+    }
+
     @Override
     public String toString() {
         return chaine + ':' + entier;
