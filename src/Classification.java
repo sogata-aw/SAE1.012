@@ -97,5 +97,18 @@ public class Classification {
         } else {
             System.out.println("Le poids associé à ce mot est : " + resultat);
         }
+
+        // Test de entierPourChaine
+        // Scanner s = new Scanner(System.in);
+        // System.out.print("\nSaisissez un mot du lexique culture : ");
+        // int resultat = UtilitairePaireChaineEntier.entierPourChaine(lexiqueCulture, s.nextLine());
+        // if (resultat == 0) {
+        //     System.out.println("Il n'y a pas de mots correspondant à celui-ci dans le lexique.");
+        // } else {
+        //     System.out.println("Le poids associé à ce mot est : " + resultat);
+        // }
+
+        System.out.println(depeches.get(10).getMots());
+        System.out.println(depeches.get(10).getContenu());
     }
 }
