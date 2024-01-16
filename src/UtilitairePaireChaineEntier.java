@@ -3,7 +3,15 @@ import java.util.ArrayList;
 public class UtilitairePaireChaineEntier {
 
     public static int indicePourChaine(ArrayList<PaireChaineEntier> listePaires, String chaine) {
-        return 0;
+        int i=0;
+        int resultat=-1;
+        while(i< listePaires.size() && resultat!=-1){
+            if(listePaires.get(i).getChaine().equals(chaine)){
+                resultat = listePaires.get(i).getEntier();
+            }
+            i++;
+        }
+        return resultat;
 
     }
 
@@ -11,7 +19,7 @@ public class UtilitairePaireChaineEntier {
         int resultat = 0;
         int i = 0;
         while (i < listePaires.size() && resultat == 0) {
-            if (listePaires.get(i).getChaine().compareTo(chaine) == 0) {
+            if (listePaires.get(i).getChaine().equals(chaine)) {
                 resultat = listePaires.get(i).getEntier();
             }
         }
