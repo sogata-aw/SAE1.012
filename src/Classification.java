@@ -1,6 +1,4 @@
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -41,7 +39,36 @@ public class Classification {
     }
 
     public static void classementDepeches(ArrayList<Depeche> depeches, ArrayList<Categorie> categories,
-            String nomFichier) {
+            String nomFichier) throws IOException {
+        //calcul de tout les scores et placé dans scoreDepeches pour chaque catégorie
+        ArrayList<PaireChaineEntier> scoreDepeches = new ArrayList<>();
+        for(int i=0; i<depeches.size();i++){
+            for(int j=0; j<categories.size();i++){
+                PaireChaineEntier tmp = new PaireChaineEntier(categories.get(j).getNom(), categories.get(j).score(depeches.get(i)));
+                scoreDepeches.add(tmp);
+            }
+
+            FileWriter file = new FileWriter(nomFichier);
+            file.write(depeches.get(i).getId() +" \n");
+            file.write("score :\n");
+            int max = scoreDepeches.get(0).getEntier();
+            int indMax = 0;
+            for(int j=0;j<categories.size();j++){
+                if(max<scoreDepeches.get(j).getEntier()){
+                    max = scoreDepeches.get(j).getEntier();
+                    indMax=j;
+                }
+            }
+
+            file.write(scoreDepeches.get(indMax).getChaine() + " :" +Integer.toString(scoreDepeches.get(indMax).getEntier()));
+            for(int j=0; j< scoreDepeches.size();j++){
+                if(j!=indMax){
+                    file.write(scoreDepeches.get(j).getChaine() + " :" +Integer.toString(scoreDepeches.get(j).getEntier()));
+                }
+            }
+            scoreDepeches = new ArrayList<>();
+        }
+
     }
 
     public static ArrayList<PaireChaineEntier> initDico(ArrayList<Depeche> depeches, String categorie) {
