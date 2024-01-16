@@ -74,16 +74,38 @@ public class Classification {
         }
     }
 
+    public static void afficherLexique(Categorie categorie) {
+        System.out.println("Contenu du lexique \"" + categorie.getNom() + "\" :\n");
+        afficherListeGenerique(categorie.getLexique());
+    }
+
+    public static void testEntierPourChaine(Categorie categorie) {
+        Scanner s = new Scanner(System.in);
+        System.out.print("\nSaisissez un mot du lexique " + categorie.getNom() + " : ");
+        int resultat = UtilitairePaireChaineEntier.entierPourChaine(categorie.getLexique(), s.nextLine());
+
+        if (resultat == 0) {
+            System.out.println("Il n'y a pas de mots correspondant à celui-ci dans le lexique.");
+        } else {
+            System.out.println("Le poids associé à ce mot est : " + resultat);
+        }
+    }
+
     public static void main(String[] args) {
 
         // Chargement des dépêches en mémoire
         System.out.println("chargement des dépêches");
         ArrayList<Depeche> depeches = lectureDepeches("./depeches.txt");
+
         Categorie environnement_sciences = new Categorie("ENVIRONNEMENT-SCIENCES");
         Categorie culture = new Categorie("CULTURE");
+        culture.initLexique();
         Categorie economie = new Categorie("ECONOMIE");
+        economie.initLexique();
         Categorie politique = new Categorie("POLITIQUE");
+        politique.initLexique();
         Categorie sports = new Categorie("SPORTS");
+        sports.initLexique();
         ArrayList<Categorie> categories = new ArrayList<>(
                 Arrays.asList(environnement_sciences, culture, economie, politique, sports));
         
@@ -91,32 +113,9 @@ public class Classification {
         afficherListeDepeches(depeches);
 
         // Test de initLexique
-        culture.initLexique("CULTURE.TXT");
-        ArrayList<PaireChaineEntier> lexiqueCulture = culture.getLexique();
-        System.out.println("Contenu du lexique \"culture\" :\n");
-        afficherListeGenerique(lexiqueCulture);
-
+        afficherLexique(culture);
+        
         // Test de entierPourChaine
-        Scanner s = new Scanner(System.in);
-        System.out.print("\nSaisissez un mot du lexique culture : ");
-        int resultat = UtilitairePaireChaineEntier.entierPourChaine(lexiqueCulture, s.nextLine());
-        if (resultat == 0) {
-            System.out.println("Il n'y a pas de mots correspondant à celui-ci dans le lexique.");
-        } else {
-            System.out.println("Le poids associé à ce mot est : " + resultat);
-        }
-
-        // Test de entierPourChaine
-        // Scanner s = new Scanner(System.in);
-        // System.out.print("\nSaisissez un mot du lexique culture : ");
-        // int resultat = UtilitairePaireChaineEntier.entierPourChaine(lexiqueCulture, s.nextLine());
-        // if (resultat == 0) {
-        //     System.out.println("Il n'y a pas de mots correspondant à celui-ci dans le lexique.");
-        // } else {
-        //     System.out.println("Le poids associé à ce mot est : " + resultat);
-        // }
-
-        System.out.println(depeches.get(10).getMots());
-        System.out.println(depeches.get(10).getContenu());
+        testEntierPourChaine(economie);
     }
 }
