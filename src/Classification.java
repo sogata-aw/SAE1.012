@@ -62,6 +62,18 @@ public class Classification {
 
     }
 
+    public static void afficherListeDepeches(ArrayList<Depeche> depeches) {
+        for (int i = 0; i < depeches.size(); i++) {
+            depeches.get(i).afficher();
+        }
+    }
+
+    public static void afficherListeGenerique(ArrayList liste) {
+        for (int i = 0; i < liste.size(); i++) {
+            System.out.println(liste.get(i));
+        }
+    }
+
     public static void main(String[] args) {
 
         // Chargement des dépêches en mémoire
@@ -76,17 +88,13 @@ public class Classification {
                 Arrays.asList(environnement_sciences, culture, economie, politique, sports));
         
         // Affichage des dépêches
-        // for (int i = 0; i < depeches.size(); i++) {
-        //     depeches.get(i).afficher();
-        // }
+        afficherListeDepeches(depeches);
 
         // Test de initLexique
         culture.initLexique("CULTURE.TXT");
         ArrayList<PaireChaineEntier> lexiqueCulture = culture.getLexique();
         System.out.println("Contenu du lexique \"culture\" :\n");
-        for (int i = 0; i < lexiqueCulture.size(); i++) {
-            System.out.println(lexiqueCulture.get(i));
-        }
+        afficherListeGenerique(lexiqueCulture);
 
         // Test de entierPourChaine
         Scanner s = new Scanner(System.in);
