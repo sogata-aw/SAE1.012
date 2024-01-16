@@ -74,18 +74,28 @@ public class Classification {
         Categorie sports = new Categorie("SPORTS");
         ArrayList<Categorie> categories = new ArrayList<>(
                 Arrays.asList(environnement_sciences, culture, economie, politique, sports));
+        
+        // Affichage des dépêches
+        // for (int i = 0; i < depeches.size(); i++) {
+        //     depeches.get(i).afficher();
+        // }
 
-        for (int i = 0; i < depeches.size(); i++) {
-            depeches.get(i).afficher();
-        }
-
-        // test de initLexique
+        // Test de initLexique
         culture.initLexique("CULTURE.TXT");
         ArrayList<PaireChaineEntier> lexiqueCulture = culture.getLexique();
         System.out.println("Contenu du lexique \"culture\" :\n");
         for (int i = 0; i < lexiqueCulture.size(); i++) {
             System.out.println(lexiqueCulture.get(i));
         }
-    }
 
+        // Test de entierPourChaine
+        Scanner s = new Scanner(System.in);
+        System.out.print("\nSaisissez un mot du lexique culture : ");
+        int resultat = UtilitairePaireChaineEntier.entierPourChaine(lexiqueCulture, s.nextLine());
+        if (resultat == 0) {
+            System.out.println("Il n'y a pas de mots correspondant à celui-ci dans le lexique.");
+        } else {
+            System.out.println("Le poids associé à ce mot est : " + resultat);
+        }
+    }
 }
