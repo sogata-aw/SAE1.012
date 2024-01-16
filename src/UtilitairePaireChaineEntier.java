@@ -22,6 +22,7 @@ public class UtilitairePaireChaineEntier {
             if (listePaires.get(i).getChaine().equals(chaine)) {
                 resultat = listePaires.get(i).getEntier();
             }
+            i++;
         }
         return resultat;
     }
@@ -43,6 +44,7 @@ public class UtilitairePaireChaineEntier {
     }
 
     public static float moyenne(ArrayList<PaireChaineEntier> listePaires) {
+
         return 0;
     }
 }
