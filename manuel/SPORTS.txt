@@ -62,3 +62,5 @@ natation:3
 podium:3
 podiums:3
 reporter:1
+constitution:1
+constituer:1
