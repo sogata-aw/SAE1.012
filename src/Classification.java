@@ -130,10 +130,32 @@ public class Classification {
     }
 
     public static int poidsPourScore(int score) {
-        return 0;
+        if (score > 4) {
+            return 3;
+        } else if (score > 2) {
+            return 2;
+        } else {
+            return 1;
+        }
     }
 
-    public static void generationLexique(ArrayList<Depeche> depeches, String categorie, String nomFichier) {}
+    public static void generationLexique(ArrayList<Depeche> depeches, String categorie, String nomFichier) {
+        ArrayList<PaireChaineEntier> dico = initDico(depeches, categorie);
+        calculScores(depeches, categorie, dico);
+
+        try {
+            FileWriter file = new FileWriter("auto/" + nomFichier);
+            for (int i = 0; i < dico.size(); i++) {
+                if (dico.get(i).getEntier() > 1) {
+                    file.write(dico.get(i).getChaine() + ':' + poidsPourScore(dico.get(i).getEntier()) + '\n');
+                }
+            }
+            file.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void afficherListeDepeches(ArrayList<Depeche> depeches) {
         for (int i = 0; i < depeches.size(); i++) {
@@ -176,7 +198,6 @@ public class Classification {
     }
 
     public static void testInitDico(ArrayList<Depeche> depeches, String categorieCible, int filtreMinimum) {
-        
         ArrayList<PaireChaineEntier> dico = initDico(depeches, categorieCible);
         calculScores(depeches, categorieCible, dico);
         System.out.println("Liste des mots dont le score est plus grand que " + filtreMinimum + " pour la catégorie " + categorieCible + " :");
@@ -187,11 +208,7 @@ public class Classification {
         }
     }
 
-    public static void main(String[] args) {
-
-        // Chargement des dépêches en mémoire
-        ArrayList<Depeche> depeches = lectureDepeches("depeches.txt");
-        ArrayList<Depeche> depechesTest = lectureDepeches("test.txt");
+    public static void partie1(ArrayList<Depeche> depeches, ArrayList<Depeche> depechesTest) {
         
         // Création des objets catégories
         Categorie environnement_sciences = new Categorie("ENVIRONNEMENT-SCIENCES");
@@ -219,12 +236,28 @@ public class Classification {
         );
 
         // Ecriture du résultat des classements dans les fichiers :
-        classementDepeches(depeches, categories, "classement.txt");
-        classementDepeches(depechesTest, categories, "classementTest.txt");
+        classementDepeches(depeches, categories, "manuel/classement.txt");
+        classementDepeches(depechesTest, categories, "manuel/classementTest.txt");
+    }
 
+    public static void partie2(ArrayList<Depeche> depeches, ArrayList<Depeche> depechesTest) {
+        // Génération automatique des lexiques
+        generationLexique(depeches, "ENVIRONNEMENT-SCIENCES", "ENVIRONNEMENT-SCIENCES.txt");
+        generationLexique(depeches, "CULTURE", "CULTURE.txt");
+        generationLexique(depeches, "ECONOMIE", "ECONOMIE.txt");
+        generationLexique(depeches, "POLITIQUE", "POLITIQUE.txt");
+        generationLexique(depeches, "SPORTS", "SPORTS.txt");
+    }
 
+    public static void main(String[] args) {
+        // Chargement des dépêches en mémoire
+        ArrayList<Depeche> depeches = lectureDepeches("depeches.txt");
+        ArrayList<Depeche> depechesTest = lectureDepeches("test.txt");
+        
+        // 1ERE PARTIE
+        partie1(depeches, depechesTest);
 
-        // Test de initDico
-        testInitDico(depeches, "CULTURE", 0);
+        // 2EME PARTIE
+        partie2(depeches, depechesTest);
     }
 }
