@@ -76,9 +76,13 @@ public class Classification {
     }
 
     public static ArrayList<PaireChaineEntier> initDico(ArrayList<Depeche> depeches, String categorie) {
-        ArrayList<PaireChaineEntier> resultat = new ArrayList<>();
-        return resultat;
-
+        for (int i = 0; i < depeches.size(); i++) {
+            if (depeches.get(i).getCategorie().equals(categorie)) {
+                for (int j = 0; j < depeches.get(i).getMots().size(); j++) {
+                    
+                }
+            }
+        }   
     }
 
     public static void calculScores(ArrayList<Depeche> depeches, String categorie,
@@ -120,6 +124,17 @@ public class Classification {
         } else {
             System.out.println("Le poids associé à ce mot est : " + resultat);
         }
+    }
+
+    public static void testScoreMaximal(ArrayList<Categorie> categories, Depeche depeche) {
+        ArrayList<PaireChaineEntier> scores = new ArrayList<>(5);
+        scores.add(new PaireChaineEntier("ENVIRONNEMENT-SCIENCES", categories.get(0).score(depeche)));
+        scores.add(new PaireChaineEntier("CULTURE", categories.get(1).score(depeche)));
+        scores.add(new PaireChaineEntier("ECONOMIE", categories.get(2).score(depeche)));
+        scores.add(new PaireChaineEntier("POLITIQUE", categories.get(3).score(depeche)));
+        scores.add(new PaireChaineEntier("SPORTS", categories.get(4).score(depeche)));
+
+        System.out.println("Catégorie avec le score maximal pour la dépêche actuelle : " + UtilitairePaireChaineEntier.chaineMax(scores));
     }
 
     public static void main(String[] args) throws IOException {
