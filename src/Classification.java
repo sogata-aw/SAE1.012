@@ -218,11 +218,11 @@ public class Classification {
         Categorie sports = new Categorie("SPORTS");
 
         // Chargement des lexiques en mémoire pour chaque catégorie
-        environnement_sciences.initLexique();
-        culture.initLexique();
-        economie.initLexique();
-        politique.initLexique();
-        sports.initLexique();
+        environnement_sciences.initLexique("manuel");
+        culture.initLexique("manuel");
+        economie.initLexique("manuel");
+        politique.initLexique("manuel");
+        sports.initLexique("manuel");
 
         // Variable utilitaire qui regroupe toutes les catégories
         ArrayList<Categorie> categories = new ArrayList<>(
@@ -247,6 +247,34 @@ public class Classification {
         generationLexique(depeches, "ECONOMIE", "ECONOMIE.txt");
         generationLexique(depeches, "POLITIQUE", "POLITIQUE.txt");
         generationLexique(depeches, "SPORTS", "SPORTS.txt");
+
+        Categorie environnement_sciences = new Categorie("ENVIRONNEMENT-SCIENCES");
+        Categorie culture = new Categorie("CULTURE");
+        Categorie economie = new Categorie("ECONOMIE");
+        Categorie politique = new Categorie("POLITIQUE");
+        Categorie sports = new Categorie("SPORTS");
+
+        // Chargement des lexiques en mémoire pour chaque catégorie
+        environnement_sciences.initLexique("auto");
+        culture.initLexique("auto");
+        economie.initLexique("auto");
+        politique.initLexique("auto");
+        sports.initLexique("auto");
+
+        // Variable utilitaire qui regroupe toutes les catégories
+        ArrayList<Categorie> categories = new ArrayList<>(
+            Arrays.asList(
+                environnement_sciences,
+                culture,
+                economie,
+                politique,
+                sports
+            )
+        );
+
+        // Ecriture du résultat des classements dans les fichiers :
+        classementDepeches(depeches, categories, "auto/classement.txt");
+        classementDepeches(depechesTest, categories, "auto/classementTest.txt");
     }
 
     public static void main(String[] args) {
