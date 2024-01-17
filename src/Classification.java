@@ -76,13 +76,15 @@ public class Classification {
     }
 
     public static ArrayList<PaireChaineEntier> initDico(ArrayList<Depeche> depeches, String categorie) {
+        ArrayList<PaireChaineEntier> dico = new ArrayList<>();
         for (int i = 0; i < depeches.size(); i++) {
             if (depeches.get(i).getCategorie().equals(categorie)) {
                 for (int j = 0; j < depeches.get(i).getMots().size(); j++) {
-                    
+
                 }
             }
-        }   
+        }
+        return dico;
     }
 
     public static void calculScores(ArrayList<Depeche> depeches, String categorie,
