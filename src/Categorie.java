@@ -26,7 +26,7 @@ public class Categorie {
     public void initLexique() {
         try {
             lexique = new ArrayList<>();
-            Scanner scanner = new Scanner(new FileInputStream(nom + ".txt"));
+            Scanner scanner = new Scanner(new FileInputStream("manuel/" + nom + ".txt"));
             String currentLine, currentWord;
             int i, currentWeight;
 
