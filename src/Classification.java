@@ -356,18 +356,46 @@ public class Classification {
         }
     }
 
+    public static void benchmark(int iterations, boolean isPart1, boolean altMethod, ArrayList<Depeche> depeches, ArrayList<Depeche> depechesTest) {
+        long start, stop;
+        float moyenne = 0.0f;
+
+        if (isPart1) {
+            for (int i = 0; i < iterations; i++) {
+                start = System.currentTimeMillis();
+                partie1(depeches, depechesTest);
+                stop = System.currentTimeMillis();
+                moyenne += (float) (stop - start);
+            }
+            System.out.println("Temps moyen d'exécutions avec lexiques manuels : " + (moyenne / iterations) + " ms");
+
+        } else {
+            for (int i = 0; i < iterations; i++) {
+                start = System.currentTimeMillis();
+                partie2(depeches, depechesTest, altMethod);
+                stop = System.currentTimeMillis();
+                moyenne += (float) (stop - start);
+            }
+            
+            if (altMethod) {
+                System.out.println("Temps moyen d'exécutions avec lexiques automatiques (méthode alternative) : " + (moyenne / iterations) + " ms");
+            } else {
+                System.out.println("Temps moyen d'exécutions avec lexiques automatiques : " + (moyenne / iterations) + " ms");
+            }
+        }
+        
+    }
+
     public static void main(String[] args) {
         // Chargement des dépêches en mémoire
         ArrayList<Depeche> depeches = lectureDepeches("depeches.txt");
         ArrayList<Depeche> depechesTest = lectureDepeches("test.txt");
 
         // 1ERE PARTIE
-        partie1(depeches, depechesTest);
+        benchmark(10, true, false, depeches, depechesTest);
 
         // 2EME PARTIE
-        // Méthode de soustraction
-        partie2(depeches, depechesTest, false);
-        // Méthode alternative de division
-        partie2(depeches, depechesTest, true);
+        benchmark(10, false, false, depeches, depechesTest);
+        benchmark(10, false, true, depeches, depechesTest);
     }
 }
