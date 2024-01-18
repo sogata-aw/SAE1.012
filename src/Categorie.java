@@ -39,6 +39,7 @@ public class Categorie {
                 currentWord = currentLine.substring(0, i);
                 currentWeight = Integer.parseInt(currentLine.substring(i + 1));
                 lexique.add(new PaireChaineEntier(currentWord, currentWeight));
+                UtilitairePaireChaineEntier.triBullesAmeliore(lexique);
             }
         } catch (IOException e) {
             e.printStackTrace();
