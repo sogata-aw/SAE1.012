@@ -5,14 +5,12 @@ public class TestCopie {
 
     public static void shallowCopy() {
         ArrayList<PaireChaineEntier> liste1 = new ArrayList<>(
-            Arrays.asList(
-                new PaireChaineEntier("test0", 0),
-                new PaireChaineEntier("test1", 1),
-                new PaireChaineEntier("test2", 2),
-                new PaireChaineEntier("test3", 3),
-                new PaireChaineEntier("test4", 4)
-            )
-        );
+                Arrays.asList(
+                        new PaireChaineEntier("test0", 0),
+                        new PaireChaineEntier("test1", 1),
+                        new PaireChaineEntier("test2", 2),
+                        new PaireChaineEntier("test3", 3),
+                        new PaireChaineEntier("test4", 4)));
 
         ArrayList<PaireChaineEntier> liste2 = (ArrayList<PaireChaineEntier>) liste1.clone();
         liste2.get(0).setEntier(4);
@@ -30,14 +28,12 @@ public class TestCopie {
 
     public static void deepCopy() {
         ArrayList<PaireChaineEntier> liste1 = new ArrayList<>(
-            Arrays.asList(
-                new PaireChaineEntier("test0", 0),
-                new PaireChaineEntier("test1", 1),
-                new PaireChaineEntier("test2", 2),
-                new PaireChaineEntier("test3", 3),
-                new PaireChaineEntier("test4", 4)
-            )
-        );
+                Arrays.asList(
+                        new PaireChaineEntier("test0", 0),
+                        new PaireChaineEntier("test1", 1),
+                        new PaireChaineEntier("test2", 2),
+                        new PaireChaineEntier("test3", 3),
+                        new PaireChaineEntier("test4", 4)));
 
         ArrayList<PaireChaineEntier> liste2 = new ArrayList<>();
         for (int i = 0; i < liste1.size(); i++) {
@@ -56,6 +52,7 @@ public class TestCopie {
 
         System.out.println("Conclusion : si on fait une boucle comme ceci, ça fonctionne");
     }
+
     public static void main(String[] args) {
         System.out.println();
         shallowCopy();
