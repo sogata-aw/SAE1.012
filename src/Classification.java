@@ -390,10 +390,10 @@ public class Classification {
         // Chargement des dépêches en mémoire
         ArrayList<Depeche> depeches = lectureDepeches("depeches.txt");
         ArrayList<Depeche> depechesTest = lectureDepeches("test.txt");
-        
+
         int iterations;
         if (args.length == 0) {
-            iterations = 20;
+            iterations = 100;
         } else {
             iterations = Integer.parseInt(args[0]);
         }
