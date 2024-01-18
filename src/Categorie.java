@@ -23,10 +23,10 @@ public class Categorie {
 
     // initialisation du lexique de la catégorie à partir du contenu d'un fichier
     // texte
-    public void initLexique(String type) {
+    public void initLexique(String nomDossier) {
         try {
             lexique = new ArrayList<>();
-            Scanner scanner = new Scanner(new FileInputStream(type + '/' + nom + ".txt"));
+            Scanner scanner = new Scanner(new FileInputStream(nomDossier + '/' + nom + ".txt"));
             String currentLine, currentWord;
             int i, currentWeight;
 

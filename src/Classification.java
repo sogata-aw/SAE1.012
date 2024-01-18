@@ -240,20 +240,10 @@ public class Classification {
     }
 
     public static void afficherListeDepeches(ArrayList<Depeche> depeches) {
+        // Simple boucle qui affiche tous les éléments de la liste en arguments avec sa méthode spécifique
         for (int i = 0; i < depeches.size(); i++) {
             depeches.get(i).afficher();
         }
-    }
-
-    public static void afficherListeGenerique(ArrayList liste) {
-        for (int i = 0; i < liste.size(); i++) {
-            System.out.println(liste.get(i));
-        }
-    }
-
-    public static void afficherLexique(Categorie categorie) {
-        System.out.println("Contenu du lexique \"" + categorie.getNom() + "\" :\n");
-        afficherListeGenerique(categorie.getLexique());
     }
 
     public static void testEntierPourChaine(Categorie categorie) {
@@ -296,7 +286,7 @@ public class Classification {
         }
     }
 
-    public static ArrayList<Categorie> initCategories(String type) {
+    public static ArrayList<Categorie> initCategories(String nomDossier) {
         // Création des objets catégories
         Categorie environnement_sciences = new Categorie("ENVIRONNEMENT-SCIENCES");
         Categorie culture = new Categorie("CULTURE");
@@ -305,11 +295,11 @@ public class Classification {
         Categorie sports = new Categorie("SPORTS");
 
         // Chargement des lexiques en mémoire pour chaque catégorie
-        environnement_sciences.initLexique(type);
-        culture.initLexique(type);
-        economie.initLexique(type);
-        politique.initLexique(type);
-        sports.initLexique(type);
+        environnement_sciences.initLexique(nomDossier);
+        culture.initLexique(nomDossier);
+        economie.initLexique(nomDossier);
+        politique.initLexique(nomDossier);
+        sports.initLexique(nomDossier);
 
         // Variable utilitaire qui regroupe toutes les catégories
         ArrayList<Categorie> categories = new ArrayList<>(
