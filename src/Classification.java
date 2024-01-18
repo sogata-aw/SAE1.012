@@ -372,7 +372,7 @@ public class Classification {
                 moyenne += (float) (stop - start);
             }
             System.out.println("Temps moyen d'exécutions avec lexiques manuels : " + (moyenne / iterations) + " ms");
-
+            
         } else {
             for (int i = 0; i < iterations; i++) {
                 start = System.currentTimeMillis();
@@ -395,11 +395,20 @@ public class Classification {
         ArrayList<Depeche> depeches = lectureDepeches("depeches.txt");
         ArrayList<Depeche> depechesTest = lectureDepeches("test.txt");
 
+        int iterations;
+        if (args.length == 0) {
+            iterations = 100;
+        } else {
+            iterations = Integer.parseInt(args[0]);
+        }
+
+        System.out.println("Nombre d'itérations : " + iterations);
+
         // 1ERE PARTIE
-        benchmark(10, true, false, depeches, depechesTest);
+        benchmark(iterations, true, false, depeches, depechesTest);
 
         // 2EME PARTIE
-        benchmark(10, false, false, depeches, depechesTest);
-        benchmark(10, false, true, depeches, depechesTest);
+        benchmark(iterations, false, false, depeches, depechesTest);
+        benchmark(iterations, false, true, depeches, depechesTest);
     }
 }
