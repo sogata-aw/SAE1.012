@@ -4,27 +4,25 @@ public class UtilitairePaireChaineEntier {
 
     public static int indicePourChaine(ArrayList<PaireChaineEntier> listePaires, String chaine) {
         int i = 0;
-        int resultat = -1;
-        while (i < listePaires.size() && resultat == -1 && listePaires.get(i).getChaine().compareTo(chaine) <= 0) {
-            if (listePaires.get(i).getChaine().equals(chaine)) {
-                resultat = i;
-            }
+        while (i < listePaires.size() && !listePaires.get(i).getChaine().equals(chaine)) {
             i++;
         }
-        return resultat;
+        if (i == listePaires.size()) {
+            return -1;
+        }
+        return i;
 
     }
 
     public static int entierPourChaine(ArrayList<PaireChaineEntier> listePaires, String chaine) {
-        int resultat = 0;
         int i = 0;
-        while (i < listePaires.size() && resultat == 0 && listePaires.get(i).getChaine().compareTo(chaine) <= 0) {
-            if (listePaires.get(i).getChaine().equals(chaine)) {
-                resultat = listePaires.get(i).getEntier();
-            }
+        while (i < listePaires.size() && !listePaires.get(i).getChaine().equals(chaine)) {
             i++;
         }
-        return resultat;
+        if (i == listePaires.size()) {
+            return 0;
+        }
+        return listePaires.get(i).getEntier();
     }
 
     public static String chaineMax(ArrayList<PaireChaineEntier> listePaires) {
