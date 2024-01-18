@@ -53,12 +53,13 @@ public class Classification {
         try {
             FileWriter file = new FileWriter(nomFichier);
             for (int i = 0; i < depeches.size(); i++) {
+                // Pour la dépêche actuelle, on enregistre un score pour chaque catégorie dans un vecteur à 5 valeurs
                 scoreDepeches = new ArrayList<>();
                 for (int j = 0; j < categories.size(); j++) {
                     scoreDepeches.add(new PaireChaineEntier(categories.get(j).getNom(),
                             categories.get(j).score(depeches.get(i))));
                 }
-                System.out.println(scoreDepeches);
+                
                 guessedCategorie = UtilitairePaireChaineEntier.chaineMax(scoreDepeches);
                 file.write(depeches.get(i).getId() + ':' + guessedCategorie + '\n');
 
