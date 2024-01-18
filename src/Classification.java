@@ -49,7 +49,7 @@ public class Classification {
         for (int j = 0; j < categories.size(); j++) {
             bonnesReponses.add(new PaireChaineEntier(categories.get(j).getNom(), 0));
         }
-
+        UtilitairePaireChaineEntier.triBullesAmeliore(bonnesReponses);
         try {
             FileWriter file = new FileWriter(nomFichier);
             for (int i = 0; i < depeches.size(); i++) {

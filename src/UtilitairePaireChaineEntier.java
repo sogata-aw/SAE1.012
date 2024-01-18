@@ -13,15 +13,12 @@ public class UtilitairePaireChaineEntier {
                 int m;
                 while (inf < sup) {
                     m = (inf + sup) / 2;
-                    System.out.println(inf + " " + sup + " " +m);
                     if (listePaires.get(m).getChaine().compareTo(chaine) >= 0) {
                         sup = m;
                     } else {
                         inf = m + 1;
                     }
-                    System.out.println(inf + " " + sup + " " +m);
                 }
-                System.out.println(listePaires.get(sup).getChaine() + " " + chaine);
                 if (listePaires.get(sup).getChaine().compareTo(chaine)==0) {
                     return sup;
                 } else {
@@ -32,14 +29,7 @@ public class UtilitairePaireChaineEntier {
     }
 
     public static int entierPourChaine(ArrayList<PaireChaineEntier> listePaires, String chaine) {
-//        int i = 0;
-//        while (i < listePaires.size() && !listePaires.get(i).getChaine().equals(chaine)) {
-//            i++;
-//        }
-//        if (i == listePaires.size()) {
-//            return 0;
-//        }
-//        return listePaires.get(i).getEntier();
+
         if (listePaires.get(listePaires.size()-1).getChaine().compareTo(chaine)==-1) {
             return -listePaires.size();
         } else {
