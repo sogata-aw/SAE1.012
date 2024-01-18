@@ -206,6 +206,7 @@ public class Classification {
     public static void generationLexique(ArrayList<Depeche> depeches, String categorie, String nomFichier,
             boolean altMethod) {
         ArrayList<PaireChaineEntier> dico = initDico(depeches, categorie);
+        String type;
 
         // On appelle une méthode différente selon la valeur du flag en argument
         if (altMethod) {
@@ -215,7 +216,12 @@ public class Classification {
         }
 
         try {
-            FileWriter file = new FileWriter("auto/" + nomFichier);
+            if (altMethod) {
+                type = "auto_div";
+            } else {
+                type = "auto_sub";
+            }
+            FileWriter file = new FileWriter(type + '/' + nomFichier);
             for (int i = 0; i < dico.size(); i++) {
                 if (dico.get(i).getEntier() > 1) {
                     if (altMethod) {
