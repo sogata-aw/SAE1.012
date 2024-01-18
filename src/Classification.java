@@ -362,12 +362,21 @@ public class Classification {
         ArrayList<Depeche> depechesTest = lectureDepeches("test.txt");
 
         // 1ERE PARTIE
+        long startTime = System.currentTimeMillis();
         partie1(depeches, depechesTest);
+        long endTime = System.currentTimeMillis();
+        System.out.println("opération manuelle effectué en : " + (endTime-startTime) +"ms");
 
         // 2EME PARTIE
         // Méthode de soustraction
+        startTime = System.currentTimeMillis();
         partie2(depeches, depechesTest, false);
+        endTime = System.currentTimeMillis();
+        System.out.println("opération automatique effectué en : " + (endTime-startTime) +"ms");
         // Méthode alternative de division
+        startTime = System.currentTimeMillis();
         partie2(depeches, depechesTest, true);
+        endTime = System.currentTimeMillis();
+        System.out.println("opération automatique alternative effectué en : " + (endTime-startTime) +"ms");
     }
 }
