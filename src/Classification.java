@@ -356,6 +356,54 @@ public class Classification {
         }
     }
 
+    public static void moyennetemps(int nbFois, ArrayList<Depeche> depeches, ArrayList<Depeche> depechesTest){
+        System.out.println("Pour la partie 1 :");
+        ArrayList<Long> temps = new ArrayList<>();
+        long start,stop;
+        float moyenne = 0;
+        for(int i=0;i<=nbFois;i++){
+            start= System.currentTimeMillis();
+            partie1(depeches, depechesTest);
+            stop=System.currentTimeMillis();
+            temps.add(stop-start);
+        }
+        for(int i=0;i<temps.size();i++){
+            moyenne+=(float)(temps.get(i));
+        }
+        moyenne =Math.round(moyenne / temps.size());
+        System.out.println("Le temps moyen de l'exécution manuelle est de : " + moyenne + " ms");
+
+        System.out.println("Pour la partie 2 :");
+        temps=new ArrayList<>();
+        moyenne=0;
+        for(int i=0;i<=nbFois;i++){
+            start= System.currentTimeMillis();
+            partie2(depeches, depechesTest, false);
+            stop=System.currentTimeMillis();
+            temps.add(stop-start);
+        }
+        for(int i=0;i<temps.size();i++){
+            moyenne+=(float)(temps.get(i));
+        }
+        moyenne =Math.round(moyenne / temps.size());
+        System.out.println("Le temps moyen de l'exécution automatique est de : " + moyenne + " ms");
+
+        System.out.println("Pour la partie 2 :");
+        temps=new ArrayList<>();
+        moyenne=0;
+        for(int i=0;i<=nbFois;i++){
+            start= System.currentTimeMillis();
+            partie2(depeches, depechesTest, false);
+            stop=System.currentTimeMillis();
+            temps.add(stop-start);
+        }
+        for(int i=0;i<temps.size();i++){
+            moyenne+=(float)(temps.get(i));
+        }
+        moyenne =moyenne / temps.size();
+        System.out.println("Le temps moyen de l'exécution automatique alternative est de : " + moyenne + " ms");
+    }
+
     public static void main(String[] args) {
         // Chargement des dépêches en mémoire
         ArrayList<Depeche> depeches = lectureDepeches("depeches.txt");
@@ -378,5 +426,7 @@ public class Classification {
         partie2(depeches, depechesTest, true);
         endTime = System.currentTimeMillis();
         System.out.println("opération automatique alternative effectué en : " + (endTime-startTime) +"ms");
+
+        moyennetemps(100,depeches,depechesTest);
     }
 }
