@@ -43,9 +43,11 @@ public class Classification {
         String guessedCategorie, trueCategorie;
         PaireChaineEntier currentPaire;
         ArrayList<PaireChaineEntier> scoreDepeches;
-        ArrayList<PaireChaineEntier> bonnesReponses = new ArrayList<>(categories.size()); // ArrayList qui enregistre le nombre de bonnes réponses
+        ArrayList<PaireChaineEntier> bonnesReponses = new ArrayList<>(categories.size()); // ArrayList qui enregistre le
+                                                                                          // nombre de bonnes réponses
 
-        // Initialisation du nombre de bonnes réponses sur la base de la liste des catégories
+        // Initialisation du nombre de bonnes réponses sur la base de la liste des
+        // catégories
         for (int j = 0; j < categories.size(); j++) {
             bonnesReponses.add(new PaireChaineEntier(categories.get(j).getNom(), 0));
         }
@@ -53,13 +55,14 @@ public class Classification {
         try {
             FileWriter file = new FileWriter(nomFichier);
             for (int i = 0; i < depeches.size(); i++) {
-                // Pour la dépêche actuelle, on enregistre un score pour chaque catégorie dans un vecteur à 5 valeurs
+                // Pour la dépêche actuelle, on enregistre un score pour chaque catégorie dans
+                // un vecteur à 5 valeurs
                 scoreDepeches = new ArrayList<>();
                 for (int j = 0; j < categories.size(); j++) {
                     scoreDepeches.add(new PaireChaineEntier(categories.get(j).getNom(),
                             categories.get(j).score(depeches.get(i))));
                 }
-                
+
                 guessedCategorie = UtilitairePaireChaineEntier.chaineMax(scoreDepeches);
                 file.write(depeches.get(i).getId() + ':' + guessedCategorie + '\n');
 
@@ -276,7 +279,8 @@ public class Classification {
         scores.add(new PaireChaineEntier("POLITIQUE", categories.get(3).score(depeche)));
         scores.add(new PaireChaineEntier("SPORTS", categories.get(4).score(depeche)));
 
-        System.out.println("Catégorie avec le score maximal pour la dépêche actuelle : " + UtilitairePaireChaineEntier.chaineMax(scores));
+        System.out.println("Catégorie avec le score maximal pour la dépêche actuelle : "
+                + UtilitairePaireChaineEntier.chaineMax(scores));
     }
 
     public static void testInitDico(ArrayList<Depeche> depeches, String categorieCible, int filtreMinimum,
@@ -356,52 +360,20 @@ public class Classification {
         }
     }
 
-    public static void moyennetemps(int nbFois, ArrayList<Depeche> depeches, ArrayList<Depeche> depechesTest){
-        System.out.println("Pour la partie 1 :");
-        ArrayList<Long> temps = new ArrayList<>();
-        long start,stop;
+    public static void benchmark(int iterations, ArrayList<Depeche> depeches, ArrayList<Depeche> depechesTest) {
+        long start, stop;
         float moyenne = 0;
-        for(int i=0;i<=nbFois;i++){
-            start= System.currentTimeMillis();
+        
+        for (int i = 0; i < iterations; i++) {
+            start = System.currentTimeMillis();
             partie1(depeches, depechesTest);
-            stop=System.currentTimeMillis();
-            temps.add(stop-start);
+            stop = System.currentTimeMillis();
+            moyenne += (float) (stop - start);
         }
-        for(int i=0;i<temps.size();i++){
-            moyenne+=(float)(temps.get(i));
-        }
-        moyenne =Math.round(moyenne / temps.size());
-        System.out.println("Le temps moyen de l'exécution manuelle est de : " + moyenne + " ms");
+        
+        moyenne = Math.round(moyenne / temps.size());
+        System.out.println("Pour la partie 1, le temps moyen de l'exécution manuelle est de : " + moyenne + " ms");
 
-        System.out.println("Pour la partie 2 :");
-        temps=new ArrayList<>();
-        moyenne=0;
-        for(int i=0;i<=nbFois;i++){
-            start= System.currentTimeMillis();
-            partie2(depeches, depechesTest, false);
-            stop=System.currentTimeMillis();
-            temps.add(stop-start);
-        }
-        for(int i=0;i<temps.size();i++){
-            moyenne+=(float)(temps.get(i));
-        }
-        moyenne =Math.round(moyenne / temps.size());
-        System.out.println("Le temps moyen de l'exécution automatique est de : " + moyenne + " ms");
-
-        System.out.println("Pour la partie 2 :");
-        temps=new ArrayList<>();
-        moyenne=0;
-        for(int i=0;i<=nbFois;i++){
-            start= System.currentTimeMillis();
-            partie2(depeches, depechesTest, false);
-            stop=System.currentTimeMillis();
-            temps.add(stop-start);
-        }
-        for(int i=0;i<temps.size();i++){
-            moyenne+=(float)(temps.get(i));
-        }
-        moyenne =moyenne / temps.size();
-        System.out.println("Le temps moyen de l'exécution automatique alternative est de : " + moyenne + " ms");
     }
 
     public static void main(String[] args) {
@@ -409,24 +381,14 @@ public class Classification {
         ArrayList<Depeche> depeches = lectureDepeches("depeches.txt");
         ArrayList<Depeche> depechesTest = lectureDepeches("test.txt");
 
+
         // 1ERE PARTIE
-        long startTime = System.currentTimeMillis();
         partie1(depeches, depechesTest);
-        long endTime = System.currentTimeMillis();
-        System.out.println("opération manuelle effectué en : " + (endTime-startTime) +"ms");
 
         // 2EME PARTIE
         // Méthode de soustraction
-        startTime = System.currentTimeMillis();
         partie2(depeches, depechesTest, false);
-        endTime = System.currentTimeMillis();
-        System.out.println("opération automatique effectué en : " + (endTime-startTime) +"ms");
         // Méthode alternative de division
-        startTime = System.currentTimeMillis();
         partie2(depeches, depechesTest, true);
-        endTime = System.currentTimeMillis();
-        System.out.println("opération automatique alternative effectué en : " + (endTime-startTime) +"ms");
-
-        moyennetemps(100,depeches,depechesTest);
     }
 }
