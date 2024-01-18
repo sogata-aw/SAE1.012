@@ -42,8 +42,9 @@ public class Classification {
         String guessedCategorie, trueCategorie;
         PaireChaineEntier currentPaire;
         ArrayList<PaireChaineEntier> scoreDepeches;
-        ArrayList<PaireChaineEntier> bonnesReponses = new ArrayList<>(categories.size());
+        ArrayList<PaireChaineEntier> bonnesReponses = new ArrayList<>(categories.size()); // ArrayList qui enregistre le nombre de bonnes réponses
 
+        // Initialisation du nombre de bonnes réponses sur la base de la liste des catégories
         for (int j = 0; j < categories.size(); j++) {
             bonnesReponses.add(new PaireChaineEntier(categories.get(j).getNom(), 0));
         }
@@ -72,7 +73,7 @@ public class Classification {
             file.write("MOYENNE : " + UtilitairePaireChaineEntier.moyenne(bonnesReponses) + '%');
             file.close();
 
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -81,6 +82,7 @@ public class Classification {
         ArrayList<PaireChaineEntier> dicoMots = new ArrayList<>(); // Dictionnaire renvoyé à la fin
         String currentWord;
         boolean motAbsent;
+        // Création d'un dictionnaire enregistrant tous les mots de la catégorie
         for (int i = 0; i < depeches.size(); i++) {
             // Parcours de toutes les dépêches
             if (depeches.get(i).getCategorie().equals(categorie)) {
@@ -105,7 +107,8 @@ public class Classification {
         return dicoMots;
     }
 
-    public static void calculScores(ArrayList<Depeche> depeches, String categorie, ArrayList<PaireChaineEntier> dictionnaire) {
+    public static void calculScoresSub(ArrayList<Depeche> depeches, String categorie, ArrayList<PaireChaineEntier> dictionnaire) {
+        // Méthode de soustraction (par défaut) : nombre d'occurences du mot dans la bonne catégorie - nombre d'occurences du mot dans la mauvaise catégorie
         String currentWord;
         for (int i = 0; i < depeches.size(); i++) {
             // Parcours de toutes les dépêches
@@ -129,7 +132,43 @@ public class Classification {
         }
     }
 
-    public static int poidsPourScore(int score) {
+    public static void calculScoresDiv(ArrayList<Depeche> depeches, String categorie, ArrayList<PaireChaineEntier> dictionnaire) {
+        // Méthode de division (alternative) : nombre d'occurences du mot dans la bonne catégorie / nombre d'occurences du mot dans la mauvaise catégorie
+        String currentWord;
+        ArrayList<PaireChaineEntier> malus = new ArrayList<>();
+        for (int i = 0; i < dictionnaire.size(); i++) {
+            malus.add(new PaireChaineEntier(dictionnaire.get(i).getChaine(), dictionnaire.get(i).getEntier()));
+        }
+        for (int i = 0; i < depeches.size(); i++) {
+            // Parcours de toutes les dépêches
+            for (int j = 0; j < depeches.get(i).getMots().size(); j++) {
+                // Pour chaque dépêche, parcours de tous ses mots
+                currentWord = depeches.get(i).getMots().get(j); // Variable permettant de référencer le mot concerné par le tour de boucle actuel
+                for (int k = 0; k < dictionnaire.size(); k++) {
+                    // Parcours des éléments du dictionnaire donné en argument pour chercher si le mot actuel (currentWord) est le même qu'un des mots du dictionnaire :
+                    if (dictionnaire.get(k).getChaine().equals(currentWord)) {
+                        // Si c'est le cas, on vérifie si la catégorie est la bonne
+                        if (depeches.get(i).getCategorie().equals(categorie)) {
+                            // Si la catégorie est la bonne, on veut donner un meilleur score à cet élément :
+                            dictionnaire.get(k).setEntier(dictionnaire.get(k).getEntier() + 1);
+                        } else {
+                            // Sinon, c'est l'inverse :
+                            malus.get(k).setEntier(malus.get(k).getEntier() + 1);
+                        }
+                    }
+                }
+            }
+        }
+        // Encore une boucle pour réaliser la division
+        for (int k = 0; k < dictionnaire.size(); k++) {
+            if (malus.get(k).getEntier() > 0) {
+                dictionnaire.get(k).setEntier(dictionnaire.get(k).getEntier() / malus.get(k).getEntier());
+            }
+        }
+    }
+
+    public static int poidsPourScoreSub(int score) {
+        // Score adapté à la méthode normale (soustraction)
         if (score > 4) {
             return 3;
         } else if (score > 2) {
@@ -139,15 +178,36 @@ public class Classification {
         }
     }
 
-    public static void generationLexique(ArrayList<Depeche> depeches, String categorie, String nomFichier) {
+    public static int poidsPourScoreDiv(int score) {
+        // Score adapté à la méthode alternative (division)
+        if (score >= 3) {
+            return 3;
+        } else if (score == 2) {
+            return 2;
+        } else {
+            return 1;
+        }
+    }
+
+    public static void generationLexique(ArrayList<Depeche> depeches, String categorie, String nomFichier, boolean altMethod) {
         ArrayList<PaireChaineEntier> dico = initDico(depeches, categorie);
-        calculScores(depeches, categorie, dico);
+
+        // On appelle une méthode différente selon la valeur du flag en argument
+        if (altMethod) {
+            calculScoresDiv(depeches, categorie, dico);
+        } else {
+            calculScoresSub(depeches, categorie, dico);
+        }
 
         try {
             FileWriter file = new FileWriter("auto/" + nomFichier);
             for (int i = 0; i < dico.size(); i++) {
                 if (dico.get(i).getEntier() > 1) {
-                    file.write(dico.get(i).getChaine() + ':' + poidsPourScore(dico.get(i).getEntier()) + '\n');
+                    if (altMethod) {
+                        file.write(dico.get(i).getChaine() + ':' + poidsPourScoreDiv(dico.get(i).getEntier()) + '\n');
+                    } else {
+                        file.write(dico.get(i).getChaine() + ':' + poidsPourScoreSub(dico.get(i).getEntier()) + '\n');
+                    }
                 }
             }
             file.close();
@@ -197,9 +257,13 @@ public class Classification {
         System.out.println("Catégorie avec le score maximal pour la dépêche actuelle : " + UtilitairePaireChaineEntier.chaineMax(scores));
     }
 
-    public static void testInitDico(ArrayList<Depeche> depeches, String categorieCible, int filtreMinimum) {
+    public static void testInitDico(ArrayList<Depeche> depeches, String categorieCible, int filtreMinimum, boolean altMethod) {
         ArrayList<PaireChaineEntier> dico = initDico(depeches, categorieCible);
-        calculScores(depeches, categorieCible, dico);
+        if (altMethod) {
+            calculScoresDiv(depeches, categorieCible, dico);
+        } else {
+            calculScoresSub(depeches, categorieCible, dico);
+        }
         System.out.println("Liste des mots dont le score est plus grand que " + filtreMinimum + " pour la catégorie " + categorieCible + " :");
         for (int i = 0; i < dico.size(); i++) {
             if (dico.get(i).getEntier() > filtreMinimum) {
@@ -240,13 +304,13 @@ public class Classification {
         classementDepeches(depechesTest, categories, "manuel/classementTest.txt");
     }
 
-    public static void partie2(ArrayList<Depeche> depeches, ArrayList<Depeche> depechesTest) {
+    public static void partie2(ArrayList<Depeche> depeches, ArrayList<Depeche> depechesTest, boolean altMethod) {
         // Génération automatique des lexiques
-        generationLexique(depeches, "ENVIRONNEMENT-SCIENCES", "ENVIRONNEMENT-SCIENCES.txt");
-        generationLexique(depeches, "CULTURE", "CULTURE.txt");
-        generationLexique(depeches, "ECONOMIE", "ECONOMIE.txt");
-        generationLexique(depeches, "POLITIQUE", "POLITIQUE.txt");
-        generationLexique(depeches, "SPORTS", "SPORTS.txt");
+        generationLexique(depeches, "ENVIRONNEMENT-SCIENCES", "ENVIRONNEMENT-SCIENCES.txt", altMethod);
+        generationLexique(depeches, "CULTURE", "CULTURE.txt", altMethod);
+        generationLexique(depeches, "ECONOMIE", "ECONOMIE.txt", altMethod);
+        generationLexique(depeches, "POLITIQUE", "POLITIQUE.txt", altMethod);
+        generationLexique(depeches, "SPORTS", "SPORTS.txt", altMethod);
 
         Categorie environnement_sciences = new Categorie("ENVIRONNEMENT-SCIENCES");
         Categorie culture = new Categorie("CULTURE");
@@ -286,6 +350,6 @@ public class Classification {
         partie1(depeches, depechesTest);
 
         // 2EME PARTIE
-        partie2(depeches, depechesTest);
+        partie2(depeches, depechesTest, false);
     }
 }
