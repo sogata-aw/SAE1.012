@@ -206,16 +206,18 @@ public class Classification {
 
     public static void generationLexique(ArrayList<Depeche> depeches, String categorie, String nomFichier,
             boolean altMethod) {
+        // Initialisation du dictionnaire (ensemble des mots de la catégorie sans doublon)
         ArrayList<PaireChaineEntier> dico = initDico(depeches, categorie);
         String type;
 
-        // On appelle une méthode différente selon la valeur du flag en argument
+        // On appelle une méthode différente selon la valeur du flag en argument, pour calculer un score pour chaque mot du dictionnaire
         if (altMethod) {
             calculScoresDiv(depeches, categorie, dico);
         } else {
             calculScoresSub(depeches, categorie, dico);
         }
 
+        // Enfin, si le score d'un mot est suffisant, on calcule un poids associé et on l'ajoute au fichier :
         try {
             if (altMethod) {
                 type = "auto_div";
@@ -247,10 +249,12 @@ public class Classification {
     }
 
     public static void testEntierPourChaine(Categorie categorie) {
+        // Vérifie si un mot existe dans le lexique de la catégorie donnée par une entrée utilisateur.
         Scanner s = new Scanner(System.in);
         System.out.print("\nSaisissez un mot du lexique " + categorie.getNom() + " : ");
         int resultat = UtilitairePaireChaineEntier.entierPourChaine(categorie.getLexique(), s.nextLine());
 
+        // Si c'est le cas, affiche l'entier associé à ce mot.
         if (resultat == 0) {
             System.out.println("Il n'y a pas de mots correspondant à celui-ci dans le lexique.");
         } else {
@@ -259,6 +263,7 @@ public class Classification {
     }
 
     public static void testScoreMaximal(ArrayList<Categorie> categories, Depeche depeche) {
+        // Calcul du score pour chaque catégorie (liste en argument)...
         ArrayList<PaireChaineEntier> scores = new ArrayList<>(5);
         scores.add(new PaireChaineEntier("ENVIRONNEMENT-SCIENCES", categories.get(0).score(depeche)));
         scores.add(new PaireChaineEntier("CULTURE", categories.get(1).score(depeche)));
@@ -266,19 +271,24 @@ public class Classification {
         scores.add(new PaireChaineEntier("POLITIQUE", categories.get(3).score(depeche)));
         scores.add(new PaireChaineEntier("SPORTS", categories.get(4).score(depeche)));
 
+        // ...Puis affichage de l'élement avec l'entier le plus grand :
         System.out.println("Catégorie avec le score maximal pour la dépêche actuelle : " + UtilitairePaireChaineEntier.chaineMax(scores));
     }
 
     public static void testInitDico(ArrayList<Depeche> depeches, String categorieCible, int filtreMinimum,
             boolean altMethod) {
+        // Affiche tous les mots du dictionnaire dont le score est plus grand que filtreMinimum
         ArrayList<PaireChaineEntier> dico = initDico(depeches, categorieCible);
+
+        // Calcul du score de chaque mot :
         if (altMethod) {
             calculScoresDiv(depeches, categorieCible, dico);
         } else {
             calculScoresSub(depeches, categorieCible, dico);
         }
-        System.out.println("Liste des mots dont le score est plus grand que " + filtreMinimum + " pour la catégorie "
-                + categorieCible + " :");
+        
+        // Parcours du dictionnaire pour trouver les mots dont le score est plus grand que filtreMinimum
+        System.out.println("Liste des mots dont le score est plus grand que " + filtreMinimum + " pour la catégorie " + categorieCible + " :");
         for (int i = 0; i < dico.size(); i++) {
             if (dico.get(i).getEntier() > filtreMinimum) {
                 System.out.println(dico.get(i));
@@ -314,6 +324,7 @@ public class Classification {
     }
 
     public static void partie1(ArrayList<Depeche> depeches, ArrayList<Depeche> depechesTest) {
+        // Appel d'initCategories pour créer les catégories et leur lexique :
         ArrayList<Categorie> categories = initCategories("manuel");
 
         // Ecriture du résultat des classements dans les fichiers :
@@ -350,6 +361,7 @@ public class Classification {
         long start, stop;
         float moyenne = 0.0f;
 
+        // Réalise une moyenne des temps d'exécution de la partie en question (les deux parties et les deux méthodes sont spécifiées dans main)
         if (isPart1) {
             for (int i = 0; i < iterations; i++) {
                 start = System.currentTimeMillis();
@@ -389,6 +401,7 @@ public class Classification {
         }
 
         System.out.println("Nombre d'itérations : " + iterations);
+        System.out.println("Veuillez patienter, le test de temps d'exécution peut être très long...");
 
         // 1ERE PARTIE
         benchmark(iterations, true, false, depeches, depechesTest);
