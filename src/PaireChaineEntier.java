@@ -17,6 +17,7 @@ public class PaireChaineEntier implements Comparable<PaireChaineEntier> {
     }
 
     public void setEntier(int valeur) {
+        // Nécessaire afin de pouvoir incrémenter la valeur depuis l'extérieur quand on en a besoin (calculScore notamment)
         entier = valeur;
     }
 
@@ -27,7 +28,7 @@ public class PaireChaineEntier implements Comparable<PaireChaineEntier> {
 
     @Override
     public int compareTo(PaireChaineEntier o) {
-        // Ordre (chaine,entier)
+        // Ordre (chaine, entier)
         int r = 1;
         if (this.getChaine().compareTo(o.getChaine()) < 0
                 || (this.getChaine().compareTo(o.getChaine()) < 0 && this.getEntier() < o.getEntier())) {
